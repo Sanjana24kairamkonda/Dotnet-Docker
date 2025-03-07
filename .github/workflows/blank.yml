@@ -1,0 +1,43 @@
+name: Build and Deploy .NET Application in Docker
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Docker
+      - name: Set up Docker
+        uses: docker/setup-buildx-action@v2
+
+      # Step 3: Build Docker image
+      - name: Build Docker image
+        run: |
+          docker build -t dotnet-app .
+
+      # Step 4: Run the Docker container locally
+      - name: Run Docker container
+        run: |
+          docker run -d -p 8080:80 --name dotnet-app dotnet-app
+
+      # Step 5: Test the running container
+      - name: Test Docker container
+        run: |
+          curl -s http://localhost:8080/weatherforecast
+
+      # Step 6: Clean up Docker container
+      - name: Clean up Docker container
+        run: |
+          docker stop dotnet-app
+          docker rm dotnet-app
