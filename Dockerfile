@@ -1,5 +1,5 @@
-# Use the official .NET SDK image to build the app
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+# Use the official .NET SDK image to build the app (for .NET 7.0)
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 
 # Set the working directory inside the container
 WORKDIR /src
@@ -14,8 +14,8 @@ COPY . ./
 # Build the application
 RUN dotnet publish -c Release -o /app
 
-# Set up the runtime image to run the app
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+# Set up the runtime image to run the app (for .NET 7.0)
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
 
