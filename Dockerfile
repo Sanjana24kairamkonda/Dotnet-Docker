@@ -1,15 +1,15 @@
-# Use the official .NET SDK image to build the app
+i# Use the official .NET SDK image to build the app
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 
 # Set the working directory inside the container
 WORKDIR /src
 
 # Copy the .csproj file and restore any dependencies (via NuGet)
-COPY DotnetApp/DotnetApp.csproj ./
+COPY DotnetApp.csproj ./
 RUN dotnet restore
 
 # Copy the rest of the application code
-COPY DotnetApp/. ./
+COPY . ./
 
 # Build the application
 RUN dotnet publish -c Release -o /app
